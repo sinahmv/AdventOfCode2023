@@ -51,16 +51,11 @@ func part1(cards []string) int {
 			rememberDrawingNumbers = append(rememberDrawingNumbers, DrawingNumber)
 		}
 
-		fmt.Println("WinningNumbers: ", rememberWinningNumbers)
-		fmt.Println("DrawingNumbers: ", splitDrawingNumbers)
-
 		for j := 0; j < len(splitDrawingNumbers); j++ {
-			currentNumber, _ := strconv.Atoi(splitDrawingNumbers[j])
-			fmt.Println("CurrentNumber: ", currentNumber)
+			currentNumber,_ := strconv.Atoi(splitDrawingNumbers[j])
 			for k := 0; k < len(rememberWinningNumbers); k++ {
 				numb := rememberWinningNumbers[k]
 				if numb == currentNumber && numb != 0 {
-					fmt.Println("YES")
 					if score == -1 {
 						score = 1
 					} else {
@@ -69,10 +64,8 @@ func part1(cards []string) int {
 				}
 			}
 		}
-		fmt.Println("Score: ", score)
 		if score != -1 {
 			endscore = endscore + score
-			fmt.Println("Endscore: ", endscore)
 		}
 		rememberWinningNumbers = make([]int, 0)
 		score = -1
