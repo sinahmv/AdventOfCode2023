@@ -13,11 +13,10 @@ func main() {
 	file, _ := os.ReadFile("/Users/sinah/Code/AdventOfCode2023/Day3/input.txt")
 	input := string(file)
 	lines := SplitLines(input)
-	fmt.Println("Ergebnis Part 1: ", SearchNumber(lines))
-	fmt.Println("Ergebnis Part 2: ")
+	fmt.Println("Ergebnis Part 1: ", Part1(lines))
 }
 
-func SearchNumber(lines []string) int {
+func Part1(lines []string) int {
 
 	hasAConnection := false
 	numbersOfConnectedParts := make([]int, 0)
