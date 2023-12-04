@@ -42,7 +42,7 @@ func SearchNumber(lines []string) int {
 					hasAConnection = true
 				}
 
-				if pos == len(currentLine) {
+				if pos == len(currentLine)-1 {
 
 					if hasAConnection {
 						numb, _ := strconv.Atoi(wholeNumberOfPart)
