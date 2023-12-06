@@ -102,9 +102,6 @@ func part2(input []string) int {
 	}
 	highsore, _ := strconv.Atoi(highsoreString)
 
-	fmt.Println(raceTime)
-	fmt.Println(highsore)
-
 	for j := 0; j <= raceTime; j++ {
 
 		//Wie wird der Score berechnet???
