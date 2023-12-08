@@ -41,17 +41,6 @@ func getMyMaps(lines []string) {
 		inputLine := strings.Fields(line)
 
 		fmt.Println(inputLine)
-
-		for i,numb := range inputLine {
-			if numb != 
-		}
-
-		for _, seed := range getMySeeds(lines) {
-			fmt.Println("Seed: ", seed)
-			for _, numb := range inputLine {
-
-			}
-		}
 	}
 }
 
