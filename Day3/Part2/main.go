@@ -18,183 +18,132 @@ func main() {
 
 func Part2(lines []string) int {
 
-	hasAConnection := false
+	connections := 0
 	numbersOfConnectedParts := make([]int, 0)
 
 	for i := 0; i < len(lines); i++ {
 
 		currentLine := lines[i]
-		wholeNumberOfPart := ""
 
 		for pos, char := range currentLine {
 
-			if string(char) == "*" {
+			if char == '*' {
 
-				currentNumber := string(char)
-				wholeNumberOfPart = wholeNumberOfPart + currentNumber
+				fmt.Println("YAY")
 
-				if CompareDown(lines, pos, i) || CompareUp(lines, pos, i) || CompareRight(currentLine, pos) ||
-					CompareLeft(currentLine, pos) || CompareDiagonalUpLeft(lines, pos, i, currentLine) ||
-					CompareDiagonalUpRight(lines, pos, i, currentLine) ||
-					CompareDiagonalDownLeft(lines, pos, i, currentLine) ||
-					CompareDiagonalDownRight(lines, pos, i, currentLine) {
-					hasAConnection = true
-				}
+				/* 				compareDown, downNumber := CompareDown(lines, pos, i)
+				   				fmt.Println(compareDown)
+				   				compareUp, upNumber := CompareUp(lines, pos, i)
+				   				fmt.Println(compareUp) */
+				compareLeft, leftNumber := CompareLeft(currentLine, pos)
+				fmt.Println(compareLeft)
+				compareRight, rightNumber := CompareRight(currentLine, pos)
+				fmt.Println(compareRight)
 
-				if pos == len(currentLine)-1 {
+				fmt.Println("YAY")
 
-					if hasAConnection {
-						numb, _ := strconv.Atoi(wholeNumberOfPart)
-						numbersOfConnectedParts = append(numbersOfConnectedParts, numb)
-					}
-					wholeNumberOfPart = ""
-					hasAConnection = false
-				}
-
-			} else if !unicode.IsDigit(char) && string(char) != "*"{
-
-				if hasAConnection {
-					numb, _ := strconv.Atoi(wholeNumberOfPart)
-					numbersOfConnectedParts = append(numbersOfConnectedParts, numb)
-				}
-				wholeNumberOfPart = ""
-				hasAConnection = false
+				if compareLeft {
+					numbersOfConnectedParts = append(numbersOfConnectedParts, leftNumber)
+					connections = connections + 1
+				} else if compareRight {
+					numbersOfConnectedParts = append(numbersOfConnectedParts, rightNumber)
+					connections = connections + 1
+				} /* else if compareUp && connections < 2 {
+					connections = connections + 1
+					numbersOfConnectedParts = append(numbersOfConnectedParts, upNumber)
+				} else if compareDown && connections < 2 {
+					connections = connections + 1
+					numbersOfConnectedParts = append(numbersOfConnectedParts, downNumber)
+				} */
+				connections = 0
 			}
 		}
 	}
 	fmt.Println("numbersOfConnectedParts: ", numbersOfConnectedParts)
 	sum := 0
-	for i := 0; i < len(numbersOfConnectedParts); i++ {
-		sum = sum + numbersOfConnectedParts[i]
+	for i := 0; i < len(numbersOfConnectedParts)-1; i++ {
+		sum = sum + (numbersOfConnectedParts[i] * numbersOfConnectedParts[i+1])
 	}
 	return sum
 }
 
-func CompareLeft(currentLine string, pos int) bool {
+func CompareLeft(currentLine string, pos int) (bool, int) {
 
+	wholeNumberOfPart := ""
 	isConnected := false
 
-	if pos > 0 {
-		charLeftString := string(currentLine[pos-1])
-		charLeft := currentLine[pos-1]
-		if charLeftString != "." && !unicode.IsNumber(rune(charLeft)) {
-			isConnected = true
-		}
-	}
-	return isConnected
-}
-
-func CompareRight(currentLine string, pos int) bool {
-
-	isConnected := false
-
-	if pos < len(currentLine)-1 {
-		charRightString := string(currentLine[pos+1])
-		charRight := currentLine[pos+1]
-		if charRightString != "." && !unicode.IsNumber(rune(charRight)) {
-			isConnected = true
-		}
-	}
-	return isConnected
-}
-
-func CompareUp(lines []string, pos int, line int) bool {
-
-	isConnected := false
-
-	if line > 0 {
-		lineAbove := lines[line-1]
-		charUpperString := string(lineAbove[pos])
-		charUp := lineAbove[pos]
-		if charUpperString != "." && !unicode.IsNumber(rune(charUp)) {
-			isConnected = true
-		}
-	}
-	return isConnected
-}
-
-func CompareDown(lines []string, pos int, line int) bool {
-
-	isConnected := false
-
-	if line < len(lines)-1 {
-		lineBelow := lines[line+1]
-		charBelowString := string(lineBelow[pos])
-		charBelow := lineBelow[pos]
-		if charBelowString != "." && !unicode.IsNumber(rune(charBelow)) {
-			isConnected = true
-		}
-	}
-	return isConnected
-}
-
-func CompareDiagonalUpLeft(lines []string, pos int, line int, currentLine string) bool {
-
-	isConnected := false
-
-	if line > 0 {
-		lineAbove := lines[line-1]
-		if pos > 0 {
-			charBelowStringLeft := string(lineAbove[pos-1])
-			charBelowLeft := lineAbove[pos-1]
-			if charBelowStringLeft != "." && !unicode.IsNumber(rune(charBelowLeft)) {
+	for i := range currentLine {
+		for pos > i {
+			charLeft := currentLine[pos-i]
+			charLeftString := string(currentLine[pos-i])
+			if unicode.IsNumber(rune(charLeft)) {
 				isConnected = true
+				wholeNumberOfPart = wholeNumberOfPart + charLeftString
+			} else {
+				break
 			}
 		}
 	}
-	return isConnected
+	wholeNumberOfPartInt, _ := strconv.Atoi(wholeNumberOfPart)
+	return isConnected, wholeNumberOfPartInt
 }
 
-func CompareDiagonalUpRight(lines []string, pos int, line int, currentLine string) bool {
+func CompareRight(currentLine string, pos int) (bool, int) {
 
+	wholeNumberOfPart := ""
 	isConnected := false
 
-	if line > 0 {
-		lineAbove := lines[line-1]
+	for i := range currentLine {
 		if pos < len(currentLine)-1 {
-			charBelowStringRight := string(lineAbove[pos+1])
-			charBelowRight := lineAbove[pos+1]
-			if charBelowStringRight != "." && !unicode.IsNumber(rune(charBelowRight)) {
+			charRight := currentLine[pos+i]
+			charRightString := string(currentLine[pos+i])
+			if unicode.IsNumber(rune(charRight)) {
 				isConnected = true
+				wholeNumberOfPart = wholeNumberOfPart + charRightString
+			} else {
+				break
 			}
 		}
 	}
-	return isConnected
+	wholeNumberOfPartInt, _ := strconv.Atoi(wholeNumberOfPart)
+	return isConnected, wholeNumberOfPartInt
 }
 
-func CompareDiagonalDownRight(lines []string, pos int, line int, currentLine string) bool {
+/* func CompareUp(lines []string, pos int, line int) (bool, int) {
 
+	wholeNumberOfPart := ""
 	isConnected := false
 
-	if line < len(lines)-1 {
-		lineBelow := lines[line+1]
-		if pos < len(currentLine)-1 {
-			charBelowStringRight := string(lineBelow[pos+1])
-			charBelowRight := lineBelow[pos+1]
-			if charBelowStringRight != "." && !unicode.IsNumber(rune(charBelowRight)) {
-				isConnected = true
-			}
+	if line > 0 {
+		lineAbove := lines[line-1]
+		isConnectedLeft, numberUpLeft := CompareLeft(lineAbove, pos)
+		isConnectedRight, numberUpRight := CompareRight(lineAbove, pos)
+		if isConnectedLeft || isConnectedRight {
+			isConnected = true
+			wholeNumberOfPart = fmt.Sprint(numberUpLeft) + fmt.Sprint(numberUpRight)
 		}
 	}
-	return isConnected
-}
+	wholeNumberOfPartInt, _ := strconv.Atoi(wholeNumberOfPart)
+	return isConnected, wholeNumberOfPartInt
+} */
 
-func CompareDiagonalDownLeft(lines []string, pos int, line int, currentLine string) bool {
+/* func CompareDown(lines []string, pos int, line int) (bool, int) {
 
+	wholeNumberOfPart := ""
 	isConnected := false
 
-	if line < len(lines)-1 {
+	if line < len(lines) {
 		lineBelow := lines[line+1]
-		if pos > 0 {
-			charBelowStringLeft := string(lineBelow[pos-1])
-			charBelowLeft := lineBelow[pos-1]
-			if charBelowStringLeft != "." && !unicode.IsNumber(rune(charBelowLeft)) {
-				isConnected = true
-			}
+		isConnectedLeft, numberUpLeft := CompareLeft(lineBelow, pos)
+		isConnectedRight, numberUpRight := CompareRight(lineBelow, pos)
+		if isConnectedLeft || isConnectedRight {
+			isConnected = true
+			wholeNumberOfPart = fmt.Sprint(numberUpLeft) + fmt.Sprint(numberUpRight)
 		}
 	}
-	return isConnected
-}
+	wholeNumberOfPartInt, _ := strconv.Atoi(wholeNumberOfPart)
+	return isConnected, wholeNumberOfPartInt
+} */
 
 func SplitLines(s string) []string {
 	var lines []string
