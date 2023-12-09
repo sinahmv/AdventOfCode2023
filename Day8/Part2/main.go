@@ -30,7 +30,7 @@ func SplitLines(s string) []string {
 	return lines
 }
 
-func Part1(input []string) int {
+func Part1(input []string) []int {
 
 	directions := make([]string, 0)
 	for _, character := range input[0] {
@@ -38,7 +38,7 @@ func Part1(input []string) int {
 	}
 
 	listOfMaps := make(map[string]Directions)
-	listOfStartPoints := make(map[string][]Directions)
+	listOfStartPoints := make(map[string]Directions)
 	count := 0
 
 	for i := 2; i < len(input); i++ {
@@ -54,24 +54,22 @@ func Part1(input []string) int {
 
 	for _, point := range listOfMaps {
 		if strings.HasSuffix(point.name, "A") {
-			listOfStartPoints["A"] = append(listOfStartPoints["A"], point)
+			listOfStartPoints[point.name] = point
 		}
 	}
 
-	fmt.Println("List of Start Points: ", listOfStartPoints)
-
-	currentPoint := listOfStartPoints["A"][0]
+	countOfSteps := make([]int, 0)
 
 	iterator := 0
-	for !(strings.HasSuffix(currentPoint.name, "Z")) {
-		for _, point := range listOfStartPoints["A"] {
+	for _, startpoint := range listOfStartPoints {
+		for !strings.HasSuffix(startpoint.name, "Z") {
 			if iterator != len(directions) {
 				if directions[iterator] == "L" {
-					currentPoint = listOfMaps[point.left]
+					startpoint = listOfMaps[startpoint.left]
 					count = count + 1
 					iterator = iterator + 1
 				} else {
-					currentPoint = listOfMaps[point.right]
+					startpoint = listOfMaps[startpoint.right]
 					count = count + 1
 					iterator = iterator + 1
 				}
@@ -79,6 +77,8 @@ func Part1(input []string) int {
 				iterator = 0
 			}
 		}
+		countOfSteps = append(countOfSteps, count)
+		count = 0
 	}
-	return count
+	return countOfSteps
 }
