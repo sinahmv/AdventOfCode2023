@@ -37,7 +37,6 @@ func Part1(input []string) int {
 			numb, _ := strconv.Atoi(string(field))
 			newLine = append(newLine, numb)
 		}
-		fmt.Println("Line: ", newLine)
 
 		numb := generateNewLine(newLine)
 		count = count + numb
@@ -48,7 +47,6 @@ func Part1(input []string) int {
 func generateNewLine(line []int) int {
 
 	if countOccurrences(line, 0, len(line)) {
-		fmt.Println("NewValue: ", 0)
 		return 0
 	}
 
@@ -61,11 +59,8 @@ func generateNewLine(line []int) int {
 		diff = secondNumb - (firstNumb)
 		nextLine = append(nextLine, diff)
 	}
-	
-	fmt.Println("NextLine: FOO", nextLine)
 
 	newValueForLine := generateNewLine(nextLine) + line[len(line)-1]
-	fmt.Println("NewValue: ", newValueForLine)
 	return newValueForLine
 }
 
