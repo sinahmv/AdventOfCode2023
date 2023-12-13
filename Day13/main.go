@@ -65,18 +65,18 @@ func compareLeftRight(grid []string) int {
 	return output
 }
 
-func compareUpDown(lines []string) int {
+func compareUpDown(grid []string) int {
 
 	output := 0
 
-	for i := 0; i < len(lines)-1; i++ {
+	for i := 0; i < len(grid)-1; i++ {
 		line := i
 		lineDown := i + 1
 		count := 0
 
-		for j := 0; j < len(lines[line]); j++ {
-			string := lines[line]
-			stringDown := lines[lineDown]
+		for j := 0; j < len(grid[line]); j++ {
+			string := grid[line]
+			stringDown := grid[lineDown]
 			if string == stringDown {
 				count++
 			}
