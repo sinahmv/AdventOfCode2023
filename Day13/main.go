@@ -49,9 +49,9 @@ func compareLeftRight(grid []string) int {
 		count := 0
 		left := i - 1
 		right := i
-		sRange := min(i, len(grid[0])-i)
+		smallerSide := min(i, len(grid[0])-i)
 
-		for j := 0; j < sRange; j++ {
+		for j := 0; j < smallerSide; j++ {
 			for _, line := range grid {
 				charLeft := left - j
 				charRight := right + j
