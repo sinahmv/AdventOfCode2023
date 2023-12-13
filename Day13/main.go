@@ -55,18 +55,14 @@ func compareLeftRight(grid []string) int {
 			for _, line := range grid {
 				charLeft := left - j
 				charRight := right + j
-
 				if line[charLeft] == line[charRight] {
 					count++
 				}
 			}
 		}
-
 		output = i
 	}
-
 	return output
-
 }
 
 func compareUpDown(lines []string) int {
@@ -74,27 +70,20 @@ func compareUpDown(lines []string) int {
 	output := 0
 
 	for i := 0; i < len(lines)-1; i++ {
-
 		line := i
 		lineDown := i + 1
-
 		count := 0
 
 		for j := 0; j < len(lines[line]); j++ {
 			string := lines[line]
 			stringDown := lines[lineDown]
-
 			if string == stringDown {
 				count++
 			}
-
 		}
-
 		output = i
 	}
-
 	return output
-
 }
 
 func SplitLine(s string) []string {
